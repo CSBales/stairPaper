@@ -12,7 +12,6 @@ def make_toe(files, hills, sides):
 
     pathsZ = []
     pathsY = []
-    pathsX = []
 
     for hill, file, side in zip(hills, files, sides):
 
@@ -25,18 +24,35 @@ def make_toe(files, hills, sides):
 
         jointZ = []
         jointY = []
-        jointX = []
 
         for t in toe:
             jointZ.append(t.z)
             jointY.append(t.y)
-            jointX.append(t.x)
 
         pathsZ.append(np.array([jointZ[h[0]] for h in hill]))
         pathsY.append(np.array([jointY[h[0]] for h in hill]))
-        pathsX.append(np.array([jointX[h[0]] for h in hill]))
 
-    return pathsZ, pathsY, pathsX
+    pathsZ[0] = pathsZ[0] - pathsZ[0][0]
+    pathsZ[1] = pathsZ[1] - pathsZ[1][0]
+    pathsZ[2] = pathsZ[2] - pathsZ[2][0]
+    pathsZ[3] = pathsZ[3] - pathsZ[3][0]
+    pathsZ[4] = pathsZ[4] - pathsZ[4][0]
+    pathsZ[5] = pathsZ[5] - pathsZ[5][0]
+    pathsZ[6] = pathsZ[6] - pathsZ[6][0]
+    pathsZ[7] = pathsZ[7] - pathsZ[7][0]
+    
+    pathsY[0] = pathsY[0] - pathsY[0][0]
+    pathsY[1] = pathsY[1] - pathsY[1][0]
+    pathsY[2] = pathsY[2] - pathsY[2][0]
+    pathsY[3] = pathsY[3] - pathsY[3][0]
+    pathsY[4] = pathsY[4] - pathsY[4][0]
+    pathsY[5] = pathsY[5] - pathsY[5][0]
+    pathsY[6] = pathsY[6] - pathsY[6][0]
+    pathsY[7] = pathsY[7] - pathsY[7][0]
+
+    print(pathsZ[0])
+
+    return pathsZ, pathsY
 
 
 def get_index(frames, files, side):

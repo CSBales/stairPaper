@@ -31,7 +31,6 @@ def plot_gmm(Mu, Sigma, ax=None):
     return p
 
 
-
 nb_states = 15
 files = data.files
 sides = data.sides
