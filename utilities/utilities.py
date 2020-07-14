@@ -32,23 +32,17 @@ def make_toe(files, hills, sides):
         pathsZ.append(np.array([jointZ[h[0]] for h in hill]))
         pathsY.append(np.array([jointY[h[0]] for h in hill]))
 
-    pathsZ[0] = pathsZ[0] - pathsZ[0][0]
-    pathsZ[1] = pathsZ[1] - pathsZ[1][0]
-    pathsZ[2] = pathsZ[2] - pathsZ[2][0]
-    pathsZ[3] = pathsZ[3] - pathsZ[3][0]
-    pathsZ[4] = pathsZ[4] - pathsZ[4][0]
-    pathsZ[5] = pathsZ[5] - pathsZ[5][0]
-    pathsZ[6] = pathsZ[6] - pathsZ[6][0]
-    pathsZ[7] = pathsZ[7] - pathsZ[7][0]
-    
-    pathsY[0] = pathsY[0] - pathsY[0][0]
-    pathsY[1] = pathsY[1] - pathsY[1][0]
-    pathsY[2] = pathsY[2] - pathsY[2][0]
-    pathsY[3] = pathsY[3] - pathsY[3][0]
-    pathsY[4] = pathsY[4] - pathsY[4][0]
-    pathsY[5] = pathsY[5] - pathsY[5][0]
-    pathsY[6] = pathsY[6] - pathsY[6][0]
-    pathsY[7] = pathsY[7] - pathsY[7][0]
+    i = 0
+    while i < len(files):
+
+        pathsZ[i] = pathsZ[i] - pathsZ[i][0]
+        i += 1
+
+    i = 0
+    while i < len(files):
+
+        pathsY[i] = pathsY[i] - pathsY[i][0]
+        i += 1
 
     print(pathsZ[0])
 

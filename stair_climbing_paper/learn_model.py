@@ -67,6 +67,3 @@ path = runnerY.run()
 ax1.plot(sIn, np.flip(path), "k", linewidth=5)
 
 plt.show()
-
-
-

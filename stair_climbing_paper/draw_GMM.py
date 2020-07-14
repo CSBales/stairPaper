@@ -1,12 +1,11 @@
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from utilities import data, utilities
 from GaitAnaylsisToolkit.LearningTools.Trainer import GMMTrainer
 from GaitAnaylsisToolkit.LearningTools.Runner import GMMRunner
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
-
-import matplotlib
 
 
 def plot_gmm(Mu, Sigma, ax=None):
@@ -31,15 +30,14 @@ def plot_gmm(Mu, Sigma, ax=None):
     return p
 
 
-
 nb_states = 10
-files = data.files[0:2]
-sides = data.sides[0:2]
+files = data.files
+sides = data.sides
 frames = data.frames
 hills = utilities.get_index(frames, files, sides)
 pathsZ, pathsY = utilities.make_toe(files, hills, sides)
 
-trainer = GMMTrainer.GMMTrainer(demo=pathsZ, file_name="plotGMM",  n_rf=15, dt=0.01)
+trainer = GMMTrainer.GMMTrainer(demo=pathsZ, file_name="plotGMM",  n_rf=6, dt=0.01)
 trainer.train()
 runner = GMMRunner.GMMRunner("plotGMM.pickle")
 
@@ -62,6 +60,3 @@ ax0.set_ylabel('F')
 ax0.set_title("Forcing Function")
 
 plt.show()
-
-
-
