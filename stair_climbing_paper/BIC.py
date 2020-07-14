@@ -45,7 +45,8 @@ all_Zy.append(Zy)
 all_Yx.append(Yx)
 all_Yy.append(Yy)
 
-f, (ax1, ax2) = plt.subplots(2, 1)
+f1, ax1 = plt.subplots(1, 1)
+f2, ax2 = plt.subplots(1, 1)
 ax1.plot(Zx, Zy)
 ax2.plot(Yx, Yy)
 
@@ -55,7 +56,6 @@ ax1.set_title("Z BIC score")
 ax2.set_xlabel("K")
 ax2.set_ylabel("BIC score")
 ax2.set_title("Y BIC score")
-f.suptitle("Bayesian Information Criterion")
 
 Zx = np.mean(all_Zx, axis=0).tolist()
 Zy = np.mean(all_Zy, axis=0).tolist()

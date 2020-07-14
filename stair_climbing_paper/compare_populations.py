@@ -32,7 +32,7 @@ def calculate_imitation_metric_1(demos, imitation):
         ffit = poly.Polynomial(coefs)
         y_fit = ffit(t)
         paths.append(y_fit)
-        metric += np.sum(np.sqrt( np.power(y_fit - imitation.flatten(), 2)))
+        metric += np.sum(np.sqrt(np.power(y_fit - imitation.flatten(), 2)))
 
     return paths, metric/(M*T)
 
@@ -68,16 +68,16 @@ pathsZ, pathsY = utilities.make_toe(files, hills, sides)
 trainerZ1 = GMMTrainer.GMMTrainer(pathsZ, "trainZ", 6, 0.01)
 trainerZ1.train()
 runnerZ1 = GMMRunner.GMMRunner("trainZ.pickle")
-#
+
 trainerY1 = GMMTrainer.GMMTrainer(pathsY, "trainY", 6, 0.01)
 trainerY1.train()
 runnerY1 = GMMRunner.GMMRunner("trainY.pickle")
 
-files = data.files[0:1]
-sides = data.sides[0:1]
+files_single = data.files[0:1]
+sides_single = data.sides[0:1]
 frames = data.frames
-hills = utilities.get_index(frames, files, sides)
-pathsZ, pathsY = utilities.make_toe(files, hills, sides)
+hills = utilities.get_index(frames, files_single, sides_single)
+pathsZ, pathsY = utilities.make_toe(files_single, hills, sides_single)
 
 trainerZ2 = GMMTrainer.GMMTrainer(pathsZ, "trainZ_single", 6, 0.01)
 trainerZ2.train()
@@ -87,34 +87,34 @@ trainerY2 = GMMTrainer.GMMTrainer(pathsY, "trainY_single", 6, 0.01)
 trainerY2.train()
 runnerY2 = GMMRunner.GMMRunner("trainY_single.pickle")
 
-pathY2 = runnerY2.run()
-pathZ2 = runnerZ2.run()
-
-pathY1 = runnerY1.run()
 pathZ1 = runnerZ1.run()
+pathY1 = runnerY1.run()
 
-reproduction_pathY1, metricY1 = calculate_imitation_metric_1(np.array([pathsY[0]]), pathY1)
-reproduction_pathY2, metricY2 = calculate_imitation_metric_1(np.array([pathsY[0]]), pathY2)
+pathZ2 = runnerZ2.run()
+pathY2 = runnerY2.run()
 
 reproduction_pathZ1, metricZ1 = calculate_imitation_metric_1(np.array([pathsZ[0]]), pathZ1)
+reproduction_pathY1, metricY1 = calculate_imitation_metric_1(np.array([pathsY[0]]), pathY1)
+
 reproduction_pathZ2, metricZ2 = calculate_imitation_metric_1(np.array([pathsZ[0]]), pathZ2)
+reproduction_pathY2, metricY2 = calculate_imitation_metric_1(np.array([pathsY[0]]), pathY2)
 
 fig0, ax0 = plt.subplots(1)
 fig1, ax1 = plt.subplots(1)
 sIn = runnerZ1.get_sIn()
 
-runnerY2.update_start(int(round(pathsY[0][0])))
-runnerZ2.update_start(int(round(pathsZ[0][0])))
-runnerY2.update_goal(int(round(pathsY[0][-1])))
-runnerZ2.update_goal(int(round(pathsZ[0][-1])))
-
-runnerY1.update_start(int(round(pathsY[0][0])))
 runnerZ1.update_start(int(round(pathsZ[0][0])))
-runnerY1.update_goal(int(round(pathsY[0][-1])))
+runnerY1.update_start(int(round(pathsY[0][0])))
 runnerZ1.update_goal(int(round(pathsZ[0][-1])))
+runnerY1.update_goal(int(round(pathsY[0][-1])))
 
-ax0.plot(reproduction_pathZ2[0])
-ax1.plot(reproduction_pathY2[0])
+runnerZ2.update_start(int(round(pathsZ[0][0])))
+runnerY2.update_start(int(round(pathsY[0][0])))
+runnerZ2.update_goal(int(round(pathsZ[0][-1])))
+runnerY2.update_goal(int(round(pathsY[0][-1])))
+
+ax0.plot(reproduction_pathZ2[0], linewidth=3)
+ax1.plot(reproduction_pathY2[0], linewidth=3)
 
 ax0.plot(pathZ1)
 ax0.plot(pathZ2)
@@ -122,5 +122,14 @@ ax0.plot(pathZ2)
 ax1.plot(pathY1)
 ax1.plot(pathY2)
 
+ax0.legend(['Example', 'Several Subjects', 'Single Subject'])
+ax0.set_xlabel("Frames")
+ax0.set_ylabel("Position (mm)")
+ax0.set_title("Z Comparison")
+
+ax1.legend(['Example', 'Several Subjects', 'Single Subject'])
+ax1.set_xlabel("Frames")
+ax1.set_ylabel("Position (mm)")
+ax1.set_title("Y Comparison")
 
 plt.show()
